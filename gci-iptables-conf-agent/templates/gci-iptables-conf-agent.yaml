@@ -1,3 +1,4 @@
+---
 apiVersion: extensions/v1beta1
 kind: DaemonSet
 metadata:
@@ -24,7 +25,7 @@ spec:
         securityContext:
           privileged: true
       terminationGracePeriodSeconds: 65
-      {{- if .Values.tolerations }}
+{{- if .Values.tolerations }}
       tolerations:
-      {{ toYaml .Values.tolerations | indent 8 }}
-      {{- end}}
+{{ toYaml .Values.tolerations | indent 8 }}
+{{- end}}

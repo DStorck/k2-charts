@@ -98,7 +98,7 @@ spec:
       - name: varlibdockercontainers
         hostPath:
           path: /var/lib/docker/containers
-      {{- if .Values.tolerations }}
+{{- if .Values.tolerations }}
       tolerations:
-      {{ toYaml .Values.tolerations | indent 8 }}
-      {{- end}}
+{{ toYaml .Values.tolerations | indent 8 }}
+{{- end}}
