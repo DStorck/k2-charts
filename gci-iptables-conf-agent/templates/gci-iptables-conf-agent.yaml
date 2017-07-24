@@ -25,7 +25,12 @@ spec:
         securityContext:
           privileged: true
       terminationGracePeriodSeconds: 65
-{{- if .Values.tolerations }}
+      {{- if .Values.tolerations }}
       tolerations:
-{{ toYaml .Values.tolerations | indent 8 }}
-{{- end}}
+      {{- range .Values.tolerations }}
+      - key: {{ .key | default ("") }}
+        value: {{ .value | default ("")}}
+        operator: {{ .operator | default ("Equal") }}
+        effect: {{ .effect  | default ("")}}
+      {{- end }}
+      {{- end }}
