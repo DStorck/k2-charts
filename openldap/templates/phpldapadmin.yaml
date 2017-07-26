@@ -43,5 +43,22 @@ spec:
         value: {{ .value | default ("")}}
         operator: {{ .operator | default ("Equal") }}
         effect: {{ .effect  | default ("")}}
+      {{- if .Values.PhpLdapAdmin.scheduling.affinity }}
+      {{- if .Values.PhpLdapAdmin.scheduling.affinity.node }}
+      {{- if .Values.PhpLdapAdmin.scheduling.affinity.node.labels }}
+      affinity:
+        nodeAffinity:
+          {{ .Values.PhpLdapAdmin.scheduling.affinity.node.type }}:
+            nodeSelectorTerms:
+            - matchExpressions:
+                {{- range .Values.PhpLdapAdmin.scheduling.affinity.node.labels }}
+                - key: {{ .key }}
+                  operator: {{ .operator }}
+                  values:
+                  {{- range .values }}
+                  - {{ . }}
+                  {{- end }}
+                {{- end }}
+      {{- end }}
       {{- end }}
       {{- end }}

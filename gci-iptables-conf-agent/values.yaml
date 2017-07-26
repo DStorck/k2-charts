@@ -2,4 +2,11 @@
 name: gci-iptables-conf-agent
 app: iptables-agent
 image: quay.io/samsung_cnct/gci-iptables-conf-agent
-
+scheduling:
+  affinity:
+    node:
+      type: #requiredDuringSchedulingIgnoredDuringExecution
+      labels:
+      # - key: iamalabelkey
+      #   operator: In
+      #   values: ["value1", "value2"]

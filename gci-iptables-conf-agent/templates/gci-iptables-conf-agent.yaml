@@ -1,9 +1,9 @@
 apiVersion: extensions/v1beta1
 kind: DaemonSet
 metadata:
-  name: iptables-agent 
+  name: iptables-agent
   labels:
-    name: iptables-agent 
+    name: iptables-agent
     release: {{.Release.Name | quote }}
     heritage: {{.Release.Service | quote }}
     chart: "{{.Chart.Name}}-{{.Chart.Version}}"
@@ -24,3 +24,22 @@ spec:
         securityContext:
           privileged: true
       terminationGracePeriodSeconds: 65
+      {{- if .Values.scheduling.affinity }}
+      {{- if .Values.scheduling.affinity.node }}
+      {{- if .Values.scheduling.affinity.node.labels }}
+      affinity:
+        nodeAffinity:
+          {{ .Values.scheduling.affinity.node.type }}:
+            nodeSelectorTerms:
+            - matchExpressions:
+                {{- range .Values.scheduling.affinity.node.labels }}
+                - key: {{ .key }}
+                  operator: {{ .operator }}
+                  values:
+                  {{- range .values }}
+                  - {{ . }}
+                  {{- end }}
+                {{- end }}
+      {{- end }}
+      {{- end }}
+      {{- end }}
