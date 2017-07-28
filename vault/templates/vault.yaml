@@ -128,9 +128,9 @@ spec:
         effect: {{ .effect  | default ("")}}
       {{- end }}
 {{- end }}
-      {{- if .Values.Vault.scheduling.affinity }}
-      {{- if .Values.Vault.scheduling.affinity.node }}
-      {{- if .Values.Vault.scheduling.affinity.node.labels }}
+{{- if .Values.Vault.scheduling.affinity }}
+{{- if .Values.Vault.scheduling.affinity.node }}
+{{- if .Values.Vault.scheduling.affinity.node.labels }}
       affinity:
         nodeAffinity:
           {{ .Values.Vault.scheduling.affinity.node.type }}:
@@ -144,6 +144,6 @@ spec:
                   - {{ . }}
                   {{- end }}
                 {{- end }}
-      {{- end }}
-      {{- end }}
-      {{- end }}
+{{- end }}
+{{- end }}
+{{- end }}

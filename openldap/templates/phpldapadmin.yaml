@@ -43,6 +43,8 @@ spec:
         value: {{ .value | default ("")}}
         operator: {{ .operator | default ("Equal") }}
         effect: {{ .effect  | default ("")}}
+      {{- end }}
+      {{- end }}
       {{- if .Values.PhpLdapAdmin.scheduling.affinity }}
       {{- if .Values.PhpLdapAdmin.scheduling.affinity.node }}
       {{- if .Values.PhpLdapAdmin.scheduling.affinity.node.labels }}

@@ -40,6 +40,8 @@ spec:
         value: {{ .value | default ("")}}
         operator: {{ .operator | default ("Equal") }}
         effect: {{ .effect  | default ("")}}
+      {{- end }}
+      {{- end }}
       {{- if .Values.heapster_scheduling.affinity }}
       {{- if .Values.heapster_scheduling.affinity.node }}
       {{- if .Values.heapster_scheduling.affinity.node.labels }}

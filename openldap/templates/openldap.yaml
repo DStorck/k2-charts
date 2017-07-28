@@ -42,6 +42,8 @@ spec:
         value: {{ .value | default ("")}}
         operator: {{ .operator | default ("Equal") }}
         effect: {{ .effect  | default ("")}}
+      {{- end }}
+      {{- end }}
       {{- if .Values.OpenLdap.scheduling.affinity }}
       {{- if .Values.OpenLdap.scheduling.affinity.node }}
       {{- if .Values.OpenLdap.scheduling.affinity.node.labels }}

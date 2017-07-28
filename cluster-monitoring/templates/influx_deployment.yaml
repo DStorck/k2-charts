@@ -75,6 +75,8 @@ spec:
         value: {{ .value | default ("")}}
         operator: {{ .operator | default ("Equal") }}
         effect: {{ .effect  | default ("")}}
+      {{- end }}
+      {{- end }}
       {{- if .Values.influx_scheduling.affinity }}
       {{- if .Values.influx_scheduling.affinity.node }}
       {{- if .Values.influx_scheduling.affinity.node.labels }}

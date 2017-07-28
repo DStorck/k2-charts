@@ -53,6 +53,8 @@ spec:
         value: {{ .value | default ("")}}
         operator: {{ .operator | default ("Equal") }}
         effect: {{ .effect  | default ("")}}
+      {{- end }}
+      {{- end }}
       {{- if .Values.kafka_scheduling.affinity }}
       {{- if .Values.kafka_scheduling.affinity.node }}
       {{- if .Values.kafka_scheduling.affinity.node.labels }}
@@ -126,7 +128,7 @@ spec:
         - name: config-volume
           configMap:
             name: kafka-monitor-properties
-{{- if .Values.kafka_monitor_tolerations }}
+      {{- if .Values.kafka_monitor_tolerations }}
       tolerations:
       {{- range .Values.kafka_monitor_tolerations }}
       - key: {{ .key | default ("") }}
@@ -134,7 +136,7 @@ spec:
         operator: {{ .operator | default ("Equal") }}
         effect: {{ .effect  | default ("")}}
       {{- end }}
-{{- end }}
+      {{- end }}
       {{- if .Values.kafka_monitor_scheduling.affinity }}
       {{- if .Values.kafka_monitor_scheduling.affinity.node }}
       {{- if .Values.kafka_monitor_scheduling.affinity.node.labels }}

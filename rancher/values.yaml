@@ -8,6 +8,11 @@ server:
     repository: rancher/server
     tag: latest
     pullPolicy: IfNotPresent
+  tolerations:
+   # - key: taintKey
+   #   value: taintValue
+   #   operator: Equal
+   #   effect: NoSchedule
   scheduling:
     affinity:
       node:
@@ -22,13 +27,11 @@ agent:
     repository: rancher/agent
     tag: latest
     pullPolicy: IfNotPresent
-<<<<<<< HEAD
   tolerations:
    # - key: taintKey
    #   value: taintValue
    #   operator: Equal
    #   effect: NoSchedule
-=======
   scheduling:
     affinity:
       node:
@@ -37,7 +40,6 @@ agent:
         # - key: iamalabelkey
         #   operator: In
         #   values: ["value1", "value2"]
->>>>>>> node affinity option added
 service:
   name: rancher
   type: ClusterIP

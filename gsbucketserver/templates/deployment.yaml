@@ -36,6 +36,8 @@ spec:
         value: {{ .value | default ("")}}
         operator: {{ .operator | default ("Equal") }}
         effect: {{ .effect  | default ("")}}
+      {{- end }}
+      {{- end }}
       {{- if .Values.scheduling.affinity }}
       {{- if .Values.scheduling.affinity.node }}
       {{- if .Values.scheduling.affinity.node.labels }}
