@@ -1,12 +1,58 @@
+{{- if .Capabilities.APIVersions.Has "rbac.authorization.k8s.io/v1beta1"}}
+
+---
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: {{.Values.name}}
+  labels:
+    app: {{.Values.name}}
+    kubernetes.io/cluster-service: "true"
+    addonmanager.kubernetes.io/mode: Reconcile
+rules:
+- apiGroups: [""]
+  resources: ["services", "namespaces", "endpoints"]
+  verbs: ["get"]
+
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: {{.Values.name}}
+  namespace: {{.Values.namespace}}
+  labels:
+    app: {{.Values.name}}
+    kubernetes.io/cluster-service: "true"
+    addonmanager.kubernetes.io/mode: Reconcile
+subjects:
+- kind: ServiceAccount
+  name: {{.Values.name}}
+  namespace: {{.Values.namespace}}
+  apiGroup: ""
+roleRef:
+  kind: ClusterRole
+  name: {{.Values.name}}
+  apiGroup: ""
+
+{{- end}}
+
+---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: {{.Values.name}}
+  namespace: {{.Values.namespace}}
+  labels:
+    app: {{.Values.name}}
+    version: v1
+    kubernetes.io/cluster-service: "true"
+    addonmanager.kubernetes.io/mode: Reconcile
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: {{.Values.name}}
+  namespace: {{.Values.namespace}}
   labels:
     app: {{.Values.name}}
 spec:
@@ -21,6 +67,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{.Values.cluster_name}}
+  namespace: {{.Values.namespace}}
   labels:
     app: {{.Values.cluster_name}}
 spec:
@@ -35,6 +82,7 @@ apiVersion: apps/v1beta1
 kind: StatefulSet
 metadata:
   name: {{.Values.master_name}}
+  namespace: {{.Values.namespace}}
 spec:
   serviceName: "{{.Values.master_name}}"
   replicas: {{.Values.master_replicas}}
@@ -100,6 +148,15 @@ spec:
       - name: hostproc
         hostPath:
           path: /proc
+{{- if .Values.master_tolerations }}
+      tolerations:
+     {{- range .Values.master_tolerations }}
+      - key: {{ .key | default ("") }}
+        value: {{ .value | default ("")}}
+        operator: {{ .operator | default ("Equal") }}
+        effect: {{ .effect  | default ("")}}
+     {{- end }}
+{{- end }}
   volumeClaimTemplates:
   - metadata:
       name: esdata
@@ -115,6 +172,7 @@ apiVersion: apps/v1beta1
 kind: StatefulSet
 metadata:
   name: {{.Values.data_name}}
+  namespace: {{.Values.namespace}}
 spec:
   serviceName: "{{.Values.data_name}}"
   replicas: {{.Values.data_replicas}}
@@ -182,6 +240,15 @@ spec:
       - name: hostproc
         hostPath:
           path: /proc
+{{- if .Values.data_tolerations }}
+      tolerations:
+      {{- range .Values.data_tolerations }}
+      - key: {{ .key | default ("") }}
+        value: {{ .value | default ("")}}
+        operator: {{ .operator | default ("Equal") }}
+        effect: {{ .effect  | default ("")}}
+      {{- end }}
+{{- end }}
   volumeClaimTemplates:
   - metadata:
       name: esdata
