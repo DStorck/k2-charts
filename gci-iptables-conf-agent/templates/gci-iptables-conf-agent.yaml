@@ -1,3 +1,4 @@
+---
 apiVersion: extensions/v1beta1
 kind: DaemonSet
 metadata:
@@ -41,5 +42,12 @@ spec:
                   {{- end }}
                 {{- end }}
       {{- end }}
+      {{- if .Values.tolerations }}
+      tolerations:
+      {{- range .Values.tolerations }}
+      - key: {{ .key | default ("") }}
+        value: {{ .value | default ("")}}
+        operator: {{ .operator | default ("Equal") }}
+        effect: {{ .effect  | default ("")}}
       {{- end }}
       {{- end }}

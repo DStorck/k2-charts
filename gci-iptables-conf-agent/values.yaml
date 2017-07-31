@@ -10,3 +10,7 @@ scheduling:
       # - key: iamalabelkey
       #   operator: In
       #   values: ["value1", "value2"]
+tolerations:
+ - key: node-role.kubernetes.io/master
+   operator: Equal
+   effect: NoSchedule
