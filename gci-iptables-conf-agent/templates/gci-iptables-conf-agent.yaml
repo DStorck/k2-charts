@@ -42,6 +42,8 @@ spec:
                   {{- end }}
                 {{- end }}
       {{- end }}
+      {{- end }}
+      {{- end }}
       {{- if .Values.tolerations }}
       tolerations:
       {{- range .Values.tolerations }}
